@@ -15,7 +15,9 @@ return {
 
       vim.keymap.set('n', '<leader>ft', ':NvimTreeToggle<CR>', { silent = true, desc = 'Toggle nvim-tree' })
 
-      require('nvim-tree').setup {}
+      require('nvim-tree').setup {
+        update_focused_file = { enable = true },
+      }
     end,
   },
 }
