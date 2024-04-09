@@ -3,16 +3,9 @@ return {
     'akinsho/toggleterm.nvim',
     version = '*',
     config = function()
-      local uname = vim.loop.os_uname()
-
-      _G.OS = uname.sysname
-      _G.IS_MAC = OS == 'Darwin'
-      _G.IS_LINUX = OS == 'Linux'
-      _G.IS_WINDOWS = OS:find 'Windows' and true or false
-      _G.IS_WSL = IS_LINUX and uname.release:find 'Microsoft' and true or false
-
+      local os = require('utils').get_os()
       local _shell = vim.o.shell
-      if _G.IS_WINDOWS then
+      if os.IS_WINDOWS then
         _shell = 'powershell.exe'
       end
 
