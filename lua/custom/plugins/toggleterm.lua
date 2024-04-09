@@ -3,6 +3,19 @@ return {
     'akinsho/toggleterm.nvim',
     version = '*',
     config = function()
+      local uname = vim.loop.os_uname()
+
+      _G.OS = uname.sysname
+      _G.IS_MAC = OS == 'Darwin'
+      _G.IS_LINUX = OS == 'Linux'
+      _G.IS_WINDOWS = OS:find 'Windows' and true or false
+      _G.IS_WSL = IS_LINUX and uname.release:find 'Microsoft' and true or false
+
+      local _shell = vim.o.shell
+      if _G.IS_WINDOWS then
+        _shell = 'powershell.exe'
+      end
+
       require('toggleterm').setup {
         -- size can be a number or function which is passed the current terminal
         size = function(term)
@@ -40,8 +53,7 @@ return {
         persist_size = true,
         direction = 'float', -- | 'horizontal' | 'window' | 'float',
         close_on_exit = true, -- close the terminal window when the process exits
-        -- shell = vim.o.shell, -- change the default shell
-        shell = 'powershell.exe',
+        shell = _shell, -- change the default shell
         -- This field is only relevant if direction is set to 'float'
         float_opts = {
           -- The border key is *almost* the same as 'nvim_win_open'
